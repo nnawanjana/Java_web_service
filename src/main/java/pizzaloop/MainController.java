@@ -10,13 +10,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 /**
  * Created by Chathura on 4/8/2019.
+ * Edited by Nadeesha Nawanjana
+ * CT/2015/038
+ * FCT
  */
 @Controller
 @RequestMapping(path="/demo")
 public class MainController {
     @Autowired
     private PizzaRepository pizzaRepository;
+    @Autowired
+    private ExtraRepository extraRepository;
+    @Autowired
+    private CrustRepository crustRepository;
+
     private static final String SUCCESS= "Saved";
+
     /*
     * READ Operation
     * This method will list all the pizzas in the table
@@ -24,14 +33,19 @@ public class MainController {
     */
     @GetMapping(path="/all")
     public @ResponseBody Iterable<PizzaDetails> getPizzaDetails() {
+
         return pizzaRepository.findAll();
+
     }
+
+
 
     /*
     * READ Operation based on Pizza ID
     * This method will return the details of a pizza specified by the id
     * URI to access this: http://localhost:8080/demo/findByPizzaId?id=2
     */
+
     @GetMapping(path="/findByPizzaId")
     public @ResponseBody List<PizzaDetails> getPizzaById(@RequestParam Integer id) {
         return pizzaRepository.findByPizzaId(id);
@@ -87,4 +101,30 @@ public class MainController {
         }
         return pizzaRepository.findByPizzaId(id);
     }
+    /*-----------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+    /*
+     * READ Operation
+     * This method will list all the pizzas in the table
+     * URI to access this: http://localhost:8080/demo/extra
+     */
+
+    @GetMapping(path = "/extra")
+    public @ResponseBody Iterable<Extra> getExtra(){
+        return extraRepository.findAll();
+    }
+
+
+    /*
+     * READ Operation
+     * This method will list all the pizzas in the table
+     * URI to access this: http://localhost:8080/demo/crust
+     */
+
+    @GetMapping(path = "/crust")
+    public @ResponseBody Iterable<Crust> getCrust(){
+        return crustRepository.findAll();
+    }
+
 }

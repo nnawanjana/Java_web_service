@@ -1,11 +1,9 @@
 package pizzaloop;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "pizza_details")
 public class PizzaDetails {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -14,6 +12,7 @@ public class PizzaDetails {
     private String description;
     private Double price;
     private String imageUrl;
+
 
     public Integer getPizzaId() {
         return pizzaId;
