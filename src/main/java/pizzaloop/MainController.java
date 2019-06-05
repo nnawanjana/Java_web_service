@@ -19,10 +19,7 @@ import java.util.List;
 public class MainController {
     @Autowired
     private PizzaRepository pizzaRepository;
-    @Autowired
-    private ExtraRepository extraRepository;
-    @Autowired
-    private CrustRepository crustRepository;
+
 
     private static final String SUCCESS= "Saved";
 
@@ -58,11 +55,14 @@ public class MainController {
     * URI to access this: http://localhost:8080/demo/add?name=VegiPizza&description=VegiSupreme&price=2500.75
     */
     @GetMapping(path="/add")
-    public @ResponseBody String addNewPizza(@RequestParam String name, @RequestParam String description, @RequestParam Double price) {
+    public @ResponseBody String addNewPizza(@RequestParam String name, @RequestParam String description, @RequestParam Double price, @RequestParam Double smallprice, @RequestParam Double mediumprice, @RequestParam Double largeprice) {
         PizzaDetails pizzaDetails = new PizzaDetails();
         pizzaDetails.setName(name);
         pizzaDetails.setDescription(description);
         pizzaDetails.setPrice(price);
+        pizzaDetails.setSmallprice(smallprice);
+        pizzaDetails.setMediumprice(mediumprice);
+        pizzaDetails.setLargeprice(largeprice);
         pizzaRepository.save(pizzaDetails);
         return SUCCESS;
     }
@@ -85,7 +85,7 @@ public class MainController {
     * URI to access this: http://localhost:8080/demo/update?id=1&name=updatedname&description=updated&price=1234.56
     */
     @GetMapping(path="/update")
-    public @ResponseBody List<PizzaDetails> updatePizzaDetails(@RequestParam Integer id, @RequestParam String name, @RequestParam String description, @RequestParam Double price) {
+    public @ResponseBody List<PizzaDetails> updatePizzaDetails(@RequestParam Integer id, @RequestParam String name, @RequestParam String description, @RequestParam Double price, @RequestParam Double smallprice, @RequestParam Double mediumprice, @RequestParam Double largeprice) {
         //First get all the pizza details according to the provided ID
         List<PizzaDetails> pizzaDetailsList = pizzaRepository.findByPizzaId(id);
         if(!pizzaDetailsList.isEmpty()) {
@@ -95,6 +95,9 @@ public class MainController {
                 pizzaDetails.setName(name);
                 pizzaDetails.setDescription(description);
                 pizzaDetails.setPrice(price);
+                pizzaDetails.setSmallprice(smallprice);
+                pizzaDetails.setMediumprice(mediumprice);
+                pizzaDetails.setLargeprice(largeprice);
                 //Update existing pizza item
                 pizzaRepository.save(pizzaDetails);
             }
@@ -102,29 +105,5 @@ public class MainController {
         return pizzaRepository.findByPizzaId(id);
     }
     /*-----------------------------------------------------------------------------------------------------------------------------------------*/
-
-
-    /*
-     * READ Operation
-     * This method will list all the pizzas in the table
-     * URI to access this: http://localhost:8080/demo/extra
-     */
-
-    @GetMapping(path = "/extra")
-    public @ResponseBody Iterable<Extra> getExtra(){
-        return extraRepository.findAll();
-    }
-
-
-    /*
-     * READ Operation
-     * This method will list all the pizzas in the table
-     * URI to access this: http://localhost:8080/demo/crust
-     */
-
-    @GetMapping(path = "/crust")
-    public @ResponseBody Iterable<Crust> getCrust(){
-        return crustRepository.findAll();
-    }
 
 }
