@@ -22,6 +22,8 @@ public class MainController {
     private PizzaRepository pizzaRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private LoginRepository loginRepository;
 
 
     private static final String SUCCESS= "Saved";
@@ -123,15 +125,17 @@ public class MainController {
     }
 
     @GetMapping(path="/addtocart")
-    public @ResponseBody String addNewCart(@RequestParam Integer cartId, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice) {
+    public @ResponseBody String addNewCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice, @RequestParam String status) {
         Cart cart = new Cart();
         cart.setCartId(cartId);
+        cart.setImageUrl(imageUrl);
         cart.setPizzaname(pizzaname);
         cart.setPizzacrust(pizzacrust);
         cart.setPizzasize(pizzasize);
         cart.setExtra(extra);
         cart.setQty(qty);
         cart.setTotalprice(totalprice);
+        cart.setStatus(status);
         cartRepository.save(cart);
         return SUCCESS;
     }
@@ -142,24 +146,40 @@ public class MainController {
     }
 
     @GetMapping(path="/updateCart")
-    public @ResponseBody List<Cart> updateCart(@RequestParam Integer cartId, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice) {
+    public @ResponseBody List<Cart> updateCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice , @RequestParam String status) {
         //First get all the pizza details according to the provided ID
         List<Cart> cartList = cartRepository.findByCartId(cartId);
         if(!cartList.isEmpty()) {
             //Iterate through the pizza list
             for(Cart cart: cartList) {
                 //Set new values
+                cart.setImageUrl(imageUrl);
                 cart.setPizzaname(pizzaname);
                 cart.setPizzacrust(pizzacrust);
                 cart.setPizzasize(pizzasize);
                 cart.setExtra(extra);
                 cart.setQty(qty);
                 cart.setTotalprice(totalprice);
+                cart.setStatus(status);
                 //Update existing pizza item
                 cartRepository.save(cart);
             }
         }
         return cartRepository.findByCartId(cartId);
+    }
+
+//    ---------------------------------------------------------------------------------------------
+
+    @GetMapping(path="/login")
+    public @ResponseBody Iterable<Login> getLogin() {
+
+        return loginRepository.findAll();
+
+    }
+
+    @GetMapping(path="/findByUserName")
+    public @ResponseBody List<Login> getByUserName(@RequestParam String username) {
+        return loginRepository.findByUserName(username);
     }
 
 
