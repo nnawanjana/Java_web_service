@@ -11,6 +11,8 @@ public interface PizzaRepository extends CrudRepository<PizzaDetails, Integer>{
     */
     List<PizzaDetails> findByPizzaId(Integer id);
 
+    List<PizzaDetails> findByName(String name);
+
     /*
     * Delete pizza by Id
     */

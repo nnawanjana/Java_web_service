@@ -53,6 +53,13 @@ public class MainController {
         return pizzaRepository.findByPizzaId(id);
     }
 
+//    URI to access this: http://localhost:8080/demo/findByName?name=
+
+    @GetMapping(path="/findByName")
+    public @ResponseBody List<PizzaDetails> getPizzaByName(@RequestParam String name) {
+        return pizzaRepository.findByName(name);
+    }
+
     /*
     * CREATE Operation
     * This method will crate new pizza item in the database table
@@ -125,7 +132,7 @@ public class MainController {
     }
 
     @GetMapping(path="/addtocart")
-    public @ResponseBody String addNewCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice, @RequestParam String status) {
+    public @ResponseBody String addNewCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice, @RequestParam Integer status) {
         Cart cart = new Cart();
         cart.setCartId(cartId);
         cart.setImageUrl(imageUrl);
@@ -145,8 +152,13 @@ public class MainController {
         return cartRepository.deleteByCartId(id);
     }
 
+    @GetMapping(path="/deleteByStatus")
+    public @ResponseBody List<Cart> deleteCartByStatus(@RequestParam Integer status) {
+        return cartRepository.deleteByStatus(status);
+    }
+
     @GetMapping(path="/updateCart")
-    public @ResponseBody List<Cart> updateCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice , @RequestParam String status) {
+    public @ResponseBody List<Cart> updateCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice , @RequestParam Integer status) {
         //First get all the pizza details according to the provided ID
         List<Cart> cartList = cartRepository.findByCartId(cartId);
         if(!cartList.isEmpty()) {
