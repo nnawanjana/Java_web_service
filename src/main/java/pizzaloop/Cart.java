@@ -16,6 +16,8 @@ public class Cart {
     private Integer qty;
     private Double totalprice;
     private Integer status;
+    @Column(name = "userid")
+    private Integer userID;
 
     public Integer getCartId() {
         return cartId;
@@ -87,5 +89,13 @@ public class Cart {
 
     public void setTotalprice(Double totalprice) {
         this.totalprice = totalprice;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 }

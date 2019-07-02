@@ -131,8 +131,13 @@ public class MainController {
         return cartRepository.findByCartId(id);
     }
 
+    @GetMapping(path="/findByUserID")
+    public @ResponseBody List<Cart> getCartById1(@RequestParam Integer userid) {
+        return cartRepository.findByUserID(userid);
+    }
+
     @GetMapping(path="/addtocart")
-    public @ResponseBody String addNewCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice, @RequestParam Integer status) {
+    public @ResponseBody String addNewCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice , @RequestParam Integer userID, @RequestParam Integer status) {
         Cart cart = new Cart();
         cart.setCartId(cartId);
         cart.setImageUrl(imageUrl);
@@ -142,6 +147,7 @@ public class MainController {
         cart.setExtra(extra);
         cart.setQty(qty);
         cart.setTotalprice(totalprice);
+        cart.setUserID(userID);
         cart.setStatus(status);
         cartRepository.save(cart);
         return SUCCESS;
@@ -157,8 +163,13 @@ public class MainController {
         return cartRepository.deleteByStatus(status);
     }
 
+    @GetMapping(path="/deleteByUserID")
+    public @ResponseBody List<Cart> deleteCartByUserID(@RequestParam Integer userid) {
+        return cartRepository.deleteByUserID(userid);
+    }
+
     @GetMapping(path="/updateCart")
-    public @ResponseBody List<Cart> updateCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice , @RequestParam Integer status) {
+    public @ResponseBody List<Cart> updateCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice, @RequestParam Integer userID, @RequestParam Integer status) {
         //First get all the pizza details according to the provided ID
         List<Cart> cartList = cartRepository.findByCartId(cartId);
         if(!cartList.isEmpty()) {
@@ -172,6 +183,7 @@ public class MainController {
                 cart.setExtra(extra);
                 cart.setQty(qty);
                 cart.setTotalprice(totalprice);
+                cart.setUserID(userID);
                 cart.setStatus(status);
                 //Update existing pizza item
                 cartRepository.save(cart);
@@ -187,6 +199,19 @@ public class MainController {
 
         return loginRepository.findAll();
 
+    }
+
+    @GetMapping(path="/adduser")
+    public @ResponseBody String addNewUser(@RequestParam Integer loginId,@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName, @RequestParam String password, @RequestParam String phoneNumber) {
+        Login login = new Login();
+        login.setLoginId(loginId);
+        login.setFirstName(firstName);
+        login.setLastName(lastName);
+        login.setUserName(userName);
+        login.setPassword(password);
+        login.setPhoneNumber(phoneNumber);
+        loginRepository.save(login);
+        return SUCCESS;
     }
 
     @GetMapping(path="/findByUserName")
