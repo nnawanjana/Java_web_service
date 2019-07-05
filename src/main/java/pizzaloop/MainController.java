@@ -40,8 +40,6 @@ public class MainController {
 
     }
 
-
-
     /*
     * READ Operation based on Pizza ID
     * This method will return the details of a pizza specified by the id
@@ -53,7 +51,11 @@ public class MainController {
         return pizzaRepository.findByPizzaId(id);
     }
 
-//    URI to access this: http://localhost:8080/demo/findByName?name=
+    /*
+     * READ Operation based on Pizza Name
+     * This method will return the details of a pizza specified by the name
+     * URI to access this: http://localhost:8080/demo/findByName?name=pizza
+     */
 
     @GetMapping(path="/findByName")
     public @ResponseBody List<PizzaDetails> getPizzaByName(@RequestParam String name) {
@@ -96,6 +98,7 @@ public class MainController {
     * and returns the updated data
     * URI to access this: http://localhost:8080/demo/update?id=1&name=updatedname&description=updated&price=1234.56
     */
+
     @GetMapping(path="/update")
     public @ResponseBody List<PizzaDetails> updatePizzaDetails(@RequestParam Integer id, @RequestParam String name, @RequestParam String description, @RequestParam Double price, @RequestParam Double smallprice, @RequestParam Double mediumprice, @RequestParam Double largeprice) {
         //First get all the pizza details according to the provided ID
@@ -117,7 +120,11 @@ public class MainController {
         return pizzaRepository.findByPizzaId(id);
     }
     /*-----------------------------------------------------------------------------------------------------------------------------------------*/
-
+    /*
+     * READ Operation
+     * This method will list all the Cart item in the table
+     * URI to access this: http://localhost:8080/demo/cart
+     */
 
     @GetMapping(path="/cart")
     public @ResponseBody Iterable<Cart> getCart() {
@@ -125,17 +132,33 @@ public class MainController {
         return cartRepository.findAll();
 
     }
-
+    /*
+     * READ Operation based on Cart ID
+     * This method will return the details of a Cart Item specified by the cart id
+     * URI to access this: http://localhost:8080/demo/findByCartId?id=2
+     */
     @GetMapping(path="/findByCartId")
     public @ResponseBody List<Cart> getCartById(@RequestParam Integer id) {
         return cartRepository.findByCartId(id);
     }
 
+    /*
+     * READ Operation based on User ID
+     * This method will return the details of a Cart Item specified by the User id
+     * URI to access this: http://localhost:8080/demo/findByUserID?userid=2
+     */
     @GetMapping(path="/findByUserID")
     public @ResponseBody List<Cart> getCartById1(@RequestParam Integer userid) {
         return cartRepository.findByUserID(userid);
     }
-
+    /*
+     * CREATE Operation
+     * This method will crate new Cart Item item in the database table
+     * and returns the SUCCESS message
+     * URI to access this: http://localhost:8080/demo/addtocart?cartId=1&imageUrl=&pizzaname=&pizzacrust=&pizzasize=&
+     * extra=&qty=&totalprice=&userID=&status=
+     *
+     */
     @GetMapping(path="/addtocart")
     public @ResponseBody String addNewCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice , @RequestParam Integer userID, @RequestParam Integer status) {
         Cart cart = new Cart();
@@ -152,21 +175,43 @@ public class MainController {
         cartRepository.save(cart);
         return SUCCESS;
     }
-
+    /*
+     * DELETE Operation
+     * This method will delete existing Cart item by finding it using the ID
+     * and returns the deleted item
+     * URI to access this: http://localhost:8080/demo/deleteByCartId?id=2
+     */
     @GetMapping(path="/deleteByCartId")
     public @ResponseBody List<Cart> deleteCartById(@RequestParam Integer id) {
         return cartRepository.deleteByCartId(id);
     }
-
+    /*
+     * DELETE Operation
+     * This method will delete existing Cart item by finding it using the status
+     * and returns the deleted item
+     * URI to access this: http://localhost:8080/demo/deleteByStatus?status=1
+     */
     @GetMapping(path="/deleteByStatus")
     public @ResponseBody List<Cart> deleteCartByStatus(@RequestParam Integer status) {
         return cartRepository.deleteByStatus(status);
     }
-
+    /*
+     * DELETE Operation
+     * This method will delete existing Cart item by finding it using the user Id
+     * and returns the deleted item
+     * URI to access this: http://localhost:8080/demo/deleteByUserID?userid=1
+     */
     @GetMapping(path="/deleteByUserID")
     public @ResponseBody List<Cart> deleteCartByUserID(@RequestParam Integer userid) {
         return cartRepository.deleteByUserID(userid);
     }
+    /*
+     * UPDATE Operation
+     * This method will update existing Cart details by finding it using the ID
+     * and returns the updated data
+     * URI to access this: http://localhost:8080/demo/updateCart??cartId=1&imageUrl=&pizzaname=&pizzacrust=&pizzasize=&
+     * extra=&qty=&totalprice=&userID=&status=
+     */
 
     @GetMapping(path="/updateCart")
     public @ResponseBody List<Cart> updateCart(@RequestParam Integer cartId,@RequestParam String imageUrl, @RequestParam String pizzaname, @RequestParam String pizzacrust, @RequestParam String pizzasize, @RequestParam String extra, @RequestParam Integer qty, @RequestParam Double totalprice, @RequestParam Integer userID, @RequestParam Integer status) {
@@ -193,14 +238,24 @@ public class MainController {
     }
 
 //    ---------------------------------------------------------------------------------------------
-
+    /*
+     * READ Operation
+     * This method will list all the Users in the table
+     * URI to access this: http://localhost:8080/demo/login
+     */
     @GetMapping(path="/login")
     public @ResponseBody Iterable<Login> getLogin() {
 
         return loginRepository.findAll();
 
     }
-
+    /*
+     * CREATE Operation
+     * This method will crate new User Item item in the database table
+     * and returns the SUCCESS message
+     * URI to access this: http://localhost:8080/demo/adduser?loginId=&firstName=&lastName=&userName=&password=&phoneNumber=
+     *
+     */
     @GetMapping(path="/adduser")
     public @ResponseBody String addNewUser(@RequestParam Integer loginId,@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName, @RequestParam String password, @RequestParam String phoneNumber) {
         Login login = new Login();
@@ -213,7 +268,11 @@ public class MainController {
         loginRepository.save(login);
         return SUCCESS;
     }
-
+    /*
+     * READ Operation based on User Name
+     * This method will return the details of a User Item specified by the User name
+     * URI to access this: http://localhost:8080/demo/findByUserName?username=nadeesha
+     */
     @GetMapping(path="/findByUserName")
     public @ResponseBody List<Login> getByUserName(@RequestParam String username) {
         return loginRepository.findByUserName(username);
